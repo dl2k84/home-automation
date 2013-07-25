@@ -1,0 +1,18 @@
+DROP TABLE IF EXISTS REFERENCE_AIRCON_WIND_DIRECTION
+GO
+
+CREATE TABLE REFERENCE_AIRCON_WIND_DIRECTION(
+    StateId INT NOT NULL
+  , Value NVARCHAR(255) NOT NULL
+  , PRIMARY KEY(StateId)
+)
+GO
+
+INSERT INTO REFERENCE_AIRCON_WIND_DIRECTION(StateId, Value)
+VALUES(0, 'high')
+  , (1, 'mid-high')
+  , (2, 'middle')
+  , (3, 'mid-low')
+  , (4, 'low')
+  , (5, 'auto')
+GO
