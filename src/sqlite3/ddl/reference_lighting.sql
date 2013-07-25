@@ -14,4 +14,3 @@ VALUES(0, 'off')
   , (2, 'on')
   , (3, 'bright')
 GO
-

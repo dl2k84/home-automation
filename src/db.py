@@ -1,18 +1,86 @@
+import array
 import sqlite3
 import sys
+import io
+import time
 
-v = 'bright'
+def getLightingStatus():
+  conn = sqlite3.connect('sqlite3/homeautomation.db')
+  with conn:    
+  
+    cur = conn.cursor()
+    # Get current lighting status
+    cur.execute("SELECT Mode FROM STATUS_LIGHTING")
 
-con = sqlite3.connect('sqlite3/homeautomation.db')
+    return cur.fetchone()[0]
 
-with con:    
+def getTotalModes():
+  conn = sqlite3.connect('sqlite3/homeautomation.db')
+  with conn:    
     
-    cur = con.cursor()    
-    cur.execute("SELECT Id\
-        FROM REFERENCE_LIGHTING\
-        WHERE Value = :value\
-        ", {"value": v})
+    cur = conn.cursor()
 
-    row = cur.fetchone()
+    # Get total possible modes
+    cur.execute("SELECT COUNT(*) FROM REFERENCE_LIGHTING")
 
-    print row[0]
+    return cur.fetchone()[0]
+
+def getLightingCode():
+  conn = sqlite3.connect('sqlite3/homeautomation.db')
+  with conn:    
+    
+    cur = conn.cursor()
+    
+    # Get NEC code for lights
+    cur.execute("SELECT Code FROM REFERENCE_LIGHTING_CODES")
+
+    return cur.fetchone()[0]
+
+def setLighting(stateId):
+  conn = sqlite3.connect('sqlite3/homeautomation.db')
+  with conn:    
+    
+    cur = conn.cursor()
+
+    # Get total possible modes
+    totalModes = getTotalModes()
+
+    # Get current lighting status
+    currentMode = getLightingStatus()
+
+    if (currentMode != stateId):
+      updateLightingStatus(stateId)
+
+      # Only transmit signal if the current and requested modes differ
+      s = currentMode
+
+      # Open stream to IrDA device
+      # TODO currently hardcoding device as /dev/hidraw3 - needs to be configurable
+      code = getLightingCode().decode("hex")
+      o = io.open("/dev/hidraw3", "wb+")
+
+      with o:
+
+        while (s != stateId):
+          # Sleep 3s so as to not flood the IrDA device
+          time.sleep(3)
+          # Send light code to IrDA and flush stream
+          o.write(code)
+          o.flush()
+          if (s == 0):
+            # wrap around
+            s = totalModes
+          s -= 1
+        print "Closing IrDA handle"
+        o.close()
+
+def updateLightingStatus(stateId):
+  conn = sqlite3.connect('sqlite3/homeautomation.db')
+  with conn:    
+    
+    cur = conn.cursor()
+
+    cur.execute("\
+      UPDATE STATUS_LIGHTING\
+      SET Mode = :mode"
+      , { "mode": stateId })
