@@ -3,6 +3,8 @@ import sqlite3
 import sys
 import io
 import time
+import reference
+
 
 def getLightingStatus():
   conn = sqlite3.connect('sqlite3/homeautomation.db')
@@ -13,6 +15,7 @@ def getLightingStatus():
     cur.execute("SELECT Mode FROM STATUS_LIGHTING")
 
     return cur.fetchone()[0]
+
 
 def getTotalModes():
   conn = sqlite3.connect('sqlite3/homeautomation.db')
@@ -25,16 +28,6 @@ def getTotalModes():
 
     return cur.fetchone()[0]
 
-def getLightingCode():
-  conn = sqlite3.connect('sqlite3/homeautomation.db')
-  with conn:    
-    
-    cur = conn.cursor()
-    
-    # Get NEC code for lights
-    cur.execute("SELECT Code FROM REFERENCE_LIGHTING_CODES")
-
-    return cur.fetchone()[0]
 
 def setLighting(stateId):
   conn = sqlite3.connect('sqlite3/homeautomation.db')
@@ -56,7 +49,7 @@ def setLighting(stateId):
 
       # Open stream to IrDA device
       # TODO currently hardcoding device as /dev/hidraw3 - needs to be configurable
-      code = getLightingCode().decode("hex")
+      code = reference.getReferenceCode("REFERENCE_LIGHTING_CODES", stateId)
       o = io.open("/dev/hidraw3", "wb+")
 
       with o:
@@ -73,6 +66,7 @@ def setLighting(stateId):
           s -= 1
         print "Closing IrDA handle"
         o.close()
+
 
 def updateLightingStatus(stateId):
   conn = sqlite3.connect('sqlite3/homeautomation.db')

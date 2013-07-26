@@ -1,1 +1,5 @@
 venv/**
+*.pyc
+*.swp
+src/log
+src/test.py

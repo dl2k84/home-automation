@@ -1,16 +1,25 @@
 import db
+import reference
 
-from flask import Flask
-app = Flask(__name__)
+from flask import Flask, redirect, url_for
+app = Flask(__name__, static_url_path='')
+
+if not app.debug:
+    import logging
+    from logging import FileHandler
+    file_handler = FileHandler('log')
+    file_handler.setLevel(logging.WARNING)
+    app.logger.addHandler(file_handler)
 
 @app.route('/')
 def hello_world():
-  return 'Hello World!'
+  #return 'Hello World!'
+  return redirect(url_for('static', filename='index.html'))
 
 # Get the current light state
 @app.route('/lighting')
 def getLightingStatus():
-  return "Mode=" + str(db.getLightingStatus())
+  return str(db.getLightingStatus())
 
 # Sync light state. This can be used when system stored light state
 # differs from actual state. Because there is only 1 code to toggle
@@ -27,6 +36,11 @@ def lighting(mode):
   print "Mode=", mode
   db.setLighting(int(mode))
   return "Lighting control! Mode=" + mode
+
+# Lighting reference service
+@app.route('/lighting/reference')
+def getLightingReference():
+  return str(reference.getReference("REFERENCE_LIGHTING"))
 
 
 if __name__ == '__main__':
