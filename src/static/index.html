@@ -1,66 +1,88 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Bootstrap 101 Template</title>
+    <title>Home Automation Control Center</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
   </head>
   <body>
-    <h1>Hello, world!</h1>
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-    <div class="container">
-      <ul class="nav nav-list">
-        <li><a href="#"><i class="icon-adjust"></i>Lighting</a></li>
-      </ul>
+    <script src="js/control.js"></script>
+
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+
+          <ul class="nav">
+            <li><a id="lighting" href="#">Lighting</a></li>
+            <li><a href="#">Air Conditioner</a></li>
+            <li><a href="#">Coming Soon</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
+
     <div id="navCarousel" class="carousel slide">
-      <ol class="carousel-indicators">
-        <li data-target="#navCarousel" data-slide-to="0"></li>
-        <li data-target="#navCarousel" data-slide-to="1"></li>
-        <li data-target="#navCarousel" data-slide-to="2"></li>
-      </ol>
       <!-- Carousel items -->
       <div class="carousel-inner">
-        <div class="active item" style="text-align:center;">
-        <li><button type="submit" onclick="onLightingClick(2)">On</button></center></li>
-        <li><button type="submit" onclick="onLightingClick(0)">Off</button></center></li>
-       <li><button type="submit" onclick="onLightingClick(1)">Dim</button></center></li>
-       <li><button type="submit" onclick="onLightingClick(3)">Bright</button></center></li>
-       </div>
-        <div class="item">AIRCON</div>
+        <div id="lightingCarousel" class="item" data-url="/lighting.html" data-slide-number="0">
+        </div>
+        <div id="airconCarousel" class="item" data-url="/aircon.html">AIRCON</div>
         <div class="item">COMING SOON</div>
       </div>
-  
-<div class="container">
-      <!-- Carousel nav -->
-      <ul class="pager">
-        <li>
-          <a class="carousel-control left" href="#navCarousel" data-slide="prev">&lsaquo;</a>
-        </li>
-        <li>
-          <a class="carousel-control right" href="#navCarousel" data-slide="next">&rsaquo;</a>
-        </li>
-      </ul>
+
+<!-- TODO Commenting out pager as it gets in the way on mobile, don't know why -->
+        <!-- Carousel nav -->
+<!--
+        <ul class="pager">
+          <li>
+            <a class="carousel-control left" href="#navCarousel" data-slide="prev">&lsaquo;</a>
+          </li>
+          <li>
+            <a class="carousel-control right" href="#navCarousel" data-slide="next">&rsaquo;</a>
+          </li>
+        </ul>
+-->
     </div>
-</div>
 </body>
 </html>
 
-  <script>
-  function onLightingClick(state) {
-    $("button[type=submit]").button('loading');
 
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = function() {
-      if (request.readyState == 4 && request.status == 200) {
-        $("button[type=submit]").button('reset');
-      
-      alert('done');
-      }
-    }
-    request.open("GET", "/lighting/" + state, true);
-    request.send();
+
+<script>
+
+function deactivateCarousel() {
+  var items = $('#navCarousel .item');
+  for (var i = 0; i < items.length; i++) {
+    $('#' + items[i].id).removeClass('active');
   }
-  </script>
+}
+
+function getNavCarousel() {
+  return $('#navCarousel');
+}
+
+$('#lighting').click(function() {
+  // Remove all displayed carousel items
+  deactivateCarousel();
+  var item = $('#lightingCarousel');
+  var index = item.index();
+
+  // Load carousel item
+  item.load(item.data('url'), function(result) {
+    getNavCarousel().carousel(index);
+    getNavCarousel().carousel('pause');
+    item.addClass('active');
+  });
+});
+
+
+</script>
