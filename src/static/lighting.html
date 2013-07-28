@@ -9,13 +9,21 @@
   <body>
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-    <script src="js/control.js"></script>
 
     <div class="container">
       <li><button type="submit" onclick="onLightingClick(2)">On</button></center></li>
       <li><button type="submit" onclick="onLightingClick(0)">Off</button></center></li>
       <li><button type="submit" onclick="onLightingClick(1)">Dim</button></center></li>
       <li><button type="submit" onclick="onLightingClick(3)">Bright</button></center></li>
+
+      <p/ ><div id="lightingStatus"></div>
+
+      <p />State: <input id="syncInput" type="text""/><button type="submit" onclick="setLightingStatus()">Sync</button>
+
     </div>
+
+
+    <!-- Page specific javascript includes -->
+    <script src="js/lightingControl.js"></script>
   </body>
 </html>

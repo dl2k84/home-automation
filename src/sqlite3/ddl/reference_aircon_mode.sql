@@ -9,7 +9,7 @@ CREATE TABLE REFERENCE_AIRCON_MODE(
 GO
 
 INSERT INTO REFERENCE_AIRCON_MODE(StateId, Value)
-VALUES(0, 'aircon')
-  , (1, 'dehumidifier')
-  , (2, 'heater')
+VALUES(1, 'aircon')
+  , (2, 'dehumidifier')
+  , (3, 'heater')
 GO

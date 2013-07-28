@@ -1,0 +1,38 @@
+On/Off control
+Code 2, byte 6, bit 2 (Bit 1 controls whether a/c, dehumidifer or heater)
+0x?0 = Off
+0x?1 = On
+
+Code 2, byte 19
+-1 bit for Off
+eg 24 degrees on = 0x92, off = 0x91
+code wise, first construct "on" code, then -1 from both byte locations if off
+
+Mode control
+Code 2, byte 6, bit 1 (Bit 2 controls on/of)
+0x3? = Airconditioner
+0x2? = Dehumidifier
+0x4? = Heater
+
+Temperature control:
+Code2, byte 7
+0x20 = Min 16 degrees
+0x3c = Max 30 degrees
++2 per 1 degree increment
+ie 0x22 = 17, 0x24 = 18 ... 0x30 = 24 degrees c
+
+Code 2, byte 19
+0x84 = Min 16 degrees
+0xa0 = Max 30 degrees
++2 per 1 degree increment
+
+
+### For the sake of impl simplicity and energy saving, limit values to 20-28 degrees ie ###
+Code 1, byte 7
+0x28 = Min 20 degrees
+0x38 = Max 28 degrees
++2 per 1 degree increment
+
+Code2, byte 19
+0x8a = Min 20 degrees (0x89 off)
+0x9a = Max 28 degrees (0x99 off)

@@ -2,21 +2,15 @@ DROP TABLE IF EXISTS STATUS_AIRCON
 GO
 
 CREATE TABLE STATUS_AIRCON(
-    Mode INT NOT NULL
-  , Temperature NVARCHAR(255) NOT NULL
-  , Wind_Amount INT NOT NULL
-  , Wind_Direction INT NOT NULL
-  , Timer_State INT NOT NULL
-  , Timer_Hours INT NOT NULL
-  , FOREIGN KEY(Mode) REFERENCES REFERENCE_AIRCON_MODE(StateId)
-  , FOREIGN KEY(Temperature) REFERENCES REFERENCE_AIRCON_TEMPERATURE(StateId)
-  , FOREIGN KEY(Wind_Amount) REFERENCES REFERENCE_AIRCON_WIND_AMOUNT(StateId)
-  , FOREIGN KEY(Wind_Direction) REFERENCES REFERENCE_AIRCON_WIND_DIRECTION(StateId)
-  , FOREIGN KEY(Timer_State) REFERENCES REFERENCE_AIRCON_TIMER_STATE(StateId)
-  , FOREIGN KEY(Timer_Hours) REFERENCES REFERENCE_AIRCON_TIMER_HOURS(StateId)
+    CODE BLOB NOT NULL
+  , PRIMARY KEY(CODE)
 )
 GO
 
-INSERT INTO STATUS_AIRCON(Mode, Temperature, Wind_Amount, Wind_Direction, Timer_State, Timer_Hours)
-VALUES(0, 24, 4, 5, 0, 1)
+/*
+ * Insert a mask value as default. These masks need changing else
+ * db.getAirconStatus won't work until a setting is applied
+ * via db.setAircon
+ */
+INSERT INTO STATUS_AIRCON VALUES('610140980220e004000000060220e004003ghh80af000006600000800016ii')
 GO

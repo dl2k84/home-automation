@@ -1,7 +1,7 @@
 import db
 import reference
 
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, request, json
 app = Flask(__name__, static_url_path='')
 
 if not app.debug:
@@ -41,6 +41,24 @@ def lighting(mode):
 @app.route('/lighting/reference')
 def getLightingReference():
   return str(reference.getReference("REFERENCE_LIGHTING"))
+
+# Aircon
+# GET: Return current status
+# POST: Validate and updated state to be processed and issued to the aircon unit
+# All request and responses uses JSON as the serialization format
+@app.route('/aircon', methods=['POST', 'GET'])
+def aircon():
+  if request.method == 'POST':
+    return db.setAircon(request.json)
+  else:
+    return db.getAirconStatus()
+
+# Disable cache for site
+@app.after_request
+def add_no_cache(response):
+  if request.method == 'POST':
+    response.cache_control.no_cache = True
+  return response
 
 
 if __name__ == '__main__':

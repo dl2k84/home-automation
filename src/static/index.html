@@ -9,7 +9,6 @@
   <body>
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-    <script src="js/control.js"></script>
 
     <div class="navbar">
       <div class="navbar-inner">
@@ -52,37 +51,9 @@
         </ul>
 -->
     </div>
+
+
+   <!-- Page specific javascript includes -->
+    <script src="js/navigation.js"></script>
 </body>
 </html>
-
-
-
-<script>
-
-function deactivateCarousel() {
-  var items = $('#navCarousel .item');
-  for (var i = 0; i < items.length; i++) {
-    $('#' + items[i].id).removeClass('active');
-  }
-}
-
-function getNavCarousel() {
-  return $('#navCarousel');
-}
-
-$('#lighting').click(function() {
-  // Remove all displayed carousel items
-  deactivateCarousel();
-  var item = $('#lightingCarousel');
-  var index = item.index();
-
-  // Load carousel item
-  item.load(item.data('url'), function(result) {
-    getNavCarousel().carousel(index);
-    getNavCarousel().carousel('pause');
-    item.addClass('active');
-  });
-});
-
-
-</script>
