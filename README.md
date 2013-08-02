@@ -30,16 +30,14 @@ and other similar causes.
 
 GET /lighting/reference  
 Reference service that returns a JSONArray in the following format:  
-[  
-  { "stateId": "stateName" },  
-  { "stateId": "stateName" },  
-...  
-]  
+    [  
+        { "stateId": "stateName" },  
+        { "stateId": "stateName" },  
+        ...  
+    ]
 
 eg  
-[  
-  { "0": "off" }  
-]  
+    [ { "0": "off" } ]
 
 
 ### Airconditioner
@@ -47,11 +45,19 @@ eg
 GET /aircon  
 Returns current aircon status in JSON format  
 e.g.,  
-{ "mode": string, "temperature", int, "turnOn": bool }
+    {  
+        "mode": string,  
+        "temperature": int,  
+        "turnOn": bool  
+    }
 
 POST /aircon  
 Send request to aircon in JSON format as follows:  
-{ "mode": string, "temperature", int, "turnOn": bool }  
+    {
+        "mode": string,  
+        "temperature": int,  
+        "turnOn": bool  
+    }  
 mode: aircon/dehumidifier/heater  
 temperature requested temperature as int  
 turnOn: true to turn on, false to turn off  
