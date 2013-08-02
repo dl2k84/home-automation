@@ -30,11 +30,12 @@ and other similar causes.
 
 GET /lighting/reference  
 Reference service that returns a JSONArray in the following format:  
-    [  
-        { "stateId": "stateName" },  
-        { "stateId": "stateName" },  
-        ...  
-    ]
+
+        [  
+                { "stateId": "stateName" },  
+                { "stateId": "stateName" },  
+                ...  
+        ]
 
 eg  
     [ { "0": "off" } ]
