@@ -1,5 +1,4 @@
-home-automation
-===============
+# home-automation
 
 IrDA home automation web code written in Python and with the Flask framework
 
@@ -11,46 +10,50 @@ UI
 Static HTML stored in /src/static
 Flask expects static files to be here in order to be served.
 
-API
+## API
+
+### Lighting
 
 GET /lighting  
 Returns the current lighting state id stored by the server
 
-GET /lighting/{stateId}
+GET /lighting/{stateId}  
 Toggles the lighting state to requested {stateId}
 
-GET /lighting/sync/{stateId}
-Sets the current lighting state id stored by the server to the requested {stateId}
-This is useful to adjust the state when you've 
-- Used a remote control to change lighting state, or
-- An IR signal failed to be sent or delivered, or
-- Power goes out and the real light state and server known state is out of sync.
+GET /lighting/sync/{stateId}  
+Sets the current lighting state id stored by the server to the requested {stateId}  
+This is useful to adjust the state when you've  
+- Used a remote control to change lighting state, or  
+- An IR signal failed to be sent or delivered, or  
+- Power goes out and the real light state and server known state is out of sync.  
 and other similar causes.
 
-GET /lighting/reference
-Reference service that returns a JSONArray in the following format:
-[
-  { "stateId": "stateName" },
-  { "stateId": "stateName" },
-...
-]
+GET /lighting/reference  
+Reference service that returns a JSONArray in the following format:  
+[  
+  { "stateId": "stateName" },  
+  { "stateId": "stateName" },  
+...  
+]  
 
-eg
-[
-  { "0": "off" }
-]
+eg  
+[  
+  { "0": "off" }  
+]  
 
 
-GET /aircon
-Returns current aircon status in JSON format
-e.g.,
+### Airconditioner
+
+GET /aircon  
+Returns current aircon status in JSON format  
+e.g.,  
 { "mode": string, "temperature", int, "turnOn": bool }
 
-POST /aircon
-Send request to aircon in JSON format as follows:
-{ "mode": string, "temperature", int, "turnOn": bool }
-where mode: aircon/dehumidifier/heater
-temperature requested temperature as int
-turnOn: true to turn on, false to turn off
+POST /aircon  
+Send request to aircon in JSON format as follows:  
+{ "mode": string, "temperature", int, "turnOn": bool }  
+mode: aircon/dehumidifier/heater  
+temperature requested temperature as int  
+turnOn: true to turn on, false to turn off  
 
 Response: same as GET /aircon above
