@@ -4,3 +4,4 @@ venv/**
 *.swo
 src/log
 src/test.py
+log
