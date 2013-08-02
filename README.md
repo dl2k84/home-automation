@@ -13,7 +13,7 @@ Flask expects static files to be here in order to be served.
 
 API
 
-GET /lighting
+GET /lighting  
 Returns the current lighting state id stored by the server
 
 GET /lighting/{stateId}
