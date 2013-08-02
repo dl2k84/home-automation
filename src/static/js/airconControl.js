@@ -10,14 +10,29 @@ function getStatusModeDiv() {
   return $('#statusMode')
 }
 
+function updateAirconStatus(status) {
+  IS_ON = status["turnOn"];
+  MODE = status["mode"];
+  TEMPERATURE = status["temperature"]
+}
+
+function getOnOffSwitch() {
+  return $('#onOffSwitch');
+}
+
 function getAirconStatus() {
   var request = new XMLHttpRequest();
   request.onreadystatechange = function() {
     if (request.readyState == 4 && request.status == 200) {
       response = JSON.parse(request.responseText);
-      getStatusOnOffDiv().text(getStatusOnOffDiv().text() + response["turnOn"]);
-      getStatusModeDiv().text(getStatusModeDiv().text() + response["mode"]);
-      getStatusTemperatureDiv().text(getStatusTemperatureDiv().text() + response["temperature"]);
+      updateAirconStatus(response);
+      getStatusOnOffDiv().text(IS_ON);
+      getStatusModeDiv().text(MODE);
+      getStatusTemperatureDiv().text(TEMPERATURE);
+
+      getOnOffSwitch().bootstrapSwitch('setState', IS_ON);
+      $('input[name="modeOptions"][data-mode=' + MODE +']', '#modeRadio').click()
+      $('input[name="temperatureOptions"][data-temperature=' + TEMPERATURE +']', '#temperatureRadio').click()
     }
   }
   //var url = lightingStatus.data('url');
@@ -25,8 +40,26 @@ function getAirconStatus() {
   request.send();
 }
 
+function setAircon() {
+  var request = new XMLHttpRequest();
+  request.onreadystatechange = function() {
+    if (request.readyState == 4 && request.status == 200) {
+      getAirconStatus();
+    }
+  }
+
+  json = {}
+  json.turnOn = getOnOffSwitch().bootstrapSwitch('status');
+  json.mode = $('input[name="modeOptions"]:checked', '#modeRadio').data('mode');
+  json.temperature = $('input[name="temperatureOptions"]:checked', '#temperatureRadio').data('temperature');
+  request.open("POST", AIRCON_URI, true);
+  request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  request.send(JSON.stringify(json));
+}
 
 var AIRCON_URI = "/aircon";
-
+var IS_ON;
+var MODE;
+var TEMPERATURE;
 // Get and show lighting status on page load
 getAirconStatus();

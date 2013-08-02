@@ -3,19 +3,69 @@
   <head>
     <title>Home Automation Control Center</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap -->
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css" rel="stylesheet">
-  </head>
+    <link rel="stylesheet" href="css/bootstrap-switch.css">
+ </head>
   <body>
-    <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
 
+    <p />On/Off: <span id="statusOnOff"></span>
+    <p />Mode: <span id="statusMode"></span>
+    <p />Temperature: <span id="statusTemperature"></span>
 
-    <p /><div id="statusOnOff">On/Off: </div>
-    <p /><div id="statusMode">Mode: </div>
-    <p /><div id="statusTemperature">Temperature: </div>
- 
+    <p />
+    <div id="onOffSwitch" class="make-switch">
+      <input type="checkbox">
+    </div> 
+
+    <p />
+    <div id="modeRadio" class="btn-group" data-toggle="buttons">
+      <label class="btn btn-primary">
+        <input type="radio" name="modeOptions" data-mode="aircon"> Airconditioner
+      </label>
+      <label class="btn btn-primary">
+        <input type="radio" name="modeOptions" data-mode="dehumidifier"> Dehumidifier
+      </label>
+      <label class="btn btn-primary">
+        <input type="radio" name="modeOptions" data-mode="heater"> Heater
+      </label>
+    </div>
+
+    <p />
+    <!-- TODO Min/Max temperature values should be retrieved from server -->
+    <div id="temperatureRadio" class="btn-group" data-toggle="buttons">
+      <label class="btn btn-primary">
+        <input type="radio" name="temperatureOptions" data-temperature="20"> 20
+      </label>
+      <label class="btn btn-primary">
+        <input type="radio" name="temperatureOptions" data-temperature="21"> 21
+      </label>
+      <label class="btn btn-primary">
+        <input type="radio" name="temperatureOptions" data-temperature="22"> 22
+      </label>
+      <label class="btn btn-primary">
+        <input type="radio" name="temperatureOptions" data-temperature="23"> 23
+      </label>
+      <label class="btn btn-primary">
+        <input type="radio" name="temperatureOptions" data-temperature="24"> 24
+      </label>
+      <label class="btn btn-primary">
+        <input type="radio" name="temperatureOptions" data-temperature="25"> 25
+      </label>
+      <label class="btn btn-primary">
+        <input type="radio" name="temperatureOptions" data-temperature="26"> 26
+      </label>
+      <label class="btn btn-primary">
+        <input type="radio" name="temperatureOptions" data-temperature="27"> 27
+      </label>
+      <label class="btn btn-primary">
+        <input type="radio" name="temperatureOptions" data-temperature="28"> 28
+      </label>
+
+    </div>
+
+      <p /><button type="submit" onclick="setAircon()">Apply</button>
+
     <!-- Page specific javascript includes -->
     <script src="js/airconControl.js"></script>
-  </body>
+    <script src="js/bootstrap-switch.js"></script>
+</body>
 </html>
