@@ -54,11 +54,11 @@ def aircon():
     return jsonify(db.getAirconStatus())
 
 # Disable cache for site
-#@app.after_request
-#def add_no_cache(response):
-#  if request.method == 'POST':
-#    response.cache_control.no_cache = True
-#  return response
+@app.after_request
+def add_no_cache(response):
+  if request.method == 'POST':
+    response.cache_control.no_cache = True
+  return response
 
 
 if __name__ == '__main__':
