@@ -39,3 +39,18 @@ eg
 [
   { "0": "off" }
 ]
+
+
+GET /aircon
+Returns current aircon status in JSON format
+e.g.,
+{ "mode": string, "temperature", int, "turnOn": bool }
+
+POST /aircon
+Send request to aircon in JSON format as follows:
+{ "mode": string, "temperature", int, "turnOn": bool }
+where mode: aircon/dehumidifier/heater
+temperature requested temperature as int
+turnOn: true to turn on, false to turn off
+
+Response: same as GET /aircon above

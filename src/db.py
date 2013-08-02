@@ -160,7 +160,6 @@ def getAirconStatus():
     # Check temperatureDifference1 and temperatureDifference2 equals. If it doesn't, we got a problem with the byte code spec...
     if temperatureDifference1 == temperatureDifference2:
       temperature = int(temperatureMin1[1]) + int(temperatureDifference1 / 2)
-
   return { "mode": mode, "temperature": temperature, "turnOn": turnOn }
 
 
