@@ -26,6 +26,14 @@ function loadCarousel(targetCarousel) {
 }
 
 $('#lighting').click(function() {
+  loadLightingCarousel();
+});
+
+$('#aircon').click(function() {
+  loadAirconCarousel();
+});
+
+function loadLightingCarousel() {
   // Only switch carousel if clicked is not the currently active item
   var active = getActiveCarousel();
   var lightingCarousel = $('#lightingCarousel');
@@ -33,18 +41,10 @@ $('#lighting').click(function() {
     // Remove all displayed carousel items
     deactivateCarousel();
     loadCarousel(lightingCarousel);
-//    var index = lightingCarousel.index();
-
-    // Load carousel item
-//    lightingCarousel.load(lightingCarousel.data('url'), function(result) {
-//      getNavCarousel().carousel(index);
-//      getNavCarousel().carousel('pause');
-//      lightingCarousel.addClass('active');
-//    });
   }
-});
+}
 
-$('#aircon').click(function() {
+function loadAirconCarousel() {
   // Only switch carousel if clicked is not the currently active item
   var active = getActiveCarousel();
   var airconCarousel = $('#airconCarousel');
@@ -53,4 +53,4 @@ $('#aircon').click(function() {
     deactivateCarousel();
     loadCarousel(airconCarousel);
   }
-});
+}

@@ -31,8 +31,8 @@ function getAirconStatus() {
       getStatusTemperatureDiv().text(TEMPERATURE);
 
       getOnOffSwitch().bootstrapSwitch('setState', IS_ON);
-      $('input[name="modeOptions"][data-mode=' + MODE +']', '#modeRadio').click()
-      $('input[name="temperatureOptions"][data-temperature=' + TEMPERATURE +']', '#temperatureRadio').click()
+      $('input[name="modeOptions"][data-mode=' + MODE +']', '#modeRadio').click();
+      $('input[name="temperatureOptions"][data-temperature=' + TEMPERATURE +']', '#temperatureRadio').click();
     }
   }
   //var url = lightingStatus.data('url');
@@ -44,7 +44,13 @@ function setAircon() {
   var request = new XMLHttpRequest();
   request.onreadystatechange = function() {
     if (request.readyState == 4 && request.status == 200) {
-      getAirconStatus();
+      // TODO hacky way to get new aircon value: unload and reload carousel
+      // for some reason, the click() commands above does not work upon
+      // request to set aircon. Until I have some time to find out why,
+      // will use this hack.
+      //getAirconStatus();
+      deactivateCarousel();
+      loadAirconCarousel();
     }
   }
 
