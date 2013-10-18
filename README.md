@@ -68,3 +68,17 @@ temperature requested temperature as int
 turnOn: true to turn on, false to turn off  
 
 Response: same as GET /aircon above
+
+
+###HUMAN PRESENCE DETECTOR
+GET /presenceCount
+Returns integer number of registered device(s) / human(s) detected, or 0 if no one detected.
+
+GET /presence
+Returns list of registered devices(s) / humans(s) detected.
+e.g.,
+
+    [
+        "bob",
+        "jane"
+    ]

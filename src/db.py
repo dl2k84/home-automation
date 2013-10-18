@@ -5,6 +5,7 @@ import io
 import time
 import reference
 from flask import json
+import subprocess
 
 
 def getDbConnection():
@@ -231,9 +232,53 @@ def updateAirconStatus(code):
     
     cur = conn.cursor()
 
-    sql ="UPDATE STATUS_AIRCON SET Code = :code"
+    sql = "UPDATE STATUS_AIRCON SET Code = :code"
     cur.execute(sql, { "code": code })
 
 
+def getPresenceCount():
+  count = 0
+  devices = getRegisteredDevices()
+  for name, id in devices.items():
+    if (isPresent(id)):
+      count += 1
+
+  return count
+
+
+def getPresence():
+  present = []
+  devices = getRegisteredDevices()
+  for name, id in devices.items():
+    if (isPresent(id)):
+      present.append(name)
+
+  return present
+
+
+def isPresent(id):
+  returnCode = subprocess.call("l2ping" + " -c 1 " + id, shell = True)
+  if (returnCode == 0):
+    return True
+  return False
+
+
+def getRegisteredDevices():
+  conn = getDbConnection()
+  with conn:
+
+    cur = conn.cursor()
+
+    sql = "SELECT * FROM REGISTERED_DEVICES"
+    cur.execute(sql)
+
+    devices = {}
+    for row in cur.fetchall():
+      devices[row[1]] = row[2]
+
+    return devices
+
+    
+ 
 def isBitFlagSet(byte, index):
     return ((byte & (1<<index))!=0)

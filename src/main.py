@@ -2,12 +2,21 @@ import db
 import reference
 
 from flask import Flask, redirect, url_for, request, json, jsonify
+from optparse import OptionParser
+
+# Parse command line arguments
+parser = OptionParser()
+parser.add_option("-l", "--logfile")
+
+(options, args) = parser.parse_args()
+
 app = Flask(__name__, static_url_path='')
 
-if not app.debug:
+#if not app.debug:
+if options.logfile:
     import logging
     from logging import FileHandler
-    file_handler = FileHandler('log')
+    file_handler = FileHandler(options.logfile)
     file_handler.setLevel(logging.WARNING)
     app.logger.addHandler(file_handler)
 
@@ -52,6 +61,15 @@ def aircon():
     return jsonify(db.setAircon(request.json))
   else:
     return jsonify(db.getAirconStatus())
+
+# Human Presence Detector
+@app.route('/presenceCount')
+def getPresenceCount():
+  return str(db.getPresenceCount())
+
+@app.route('/presence')
+def getPresence():
+  return json.dumps(db.getPresence())
 
 # Disable cache for site
 @app.after_request
