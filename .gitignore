@@ -5,3 +5,4 @@ venv/**
 src/log
 src/test.py
 log
+src/sqlite3/ddl/registered_devices_with_ids.sql
